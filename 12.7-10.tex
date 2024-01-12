@@ -1,0 +1,93 @@
+\documentclass[12pt]{article}
+\usepackage{amsmath}
+\usepackage{booktabs}
+\usepackage{circuitikz}
+
+\newcommand{\myCode}{%
+  \title{Physics Assignment}
+  \author{Hiba Muhammed \\
+          EE23BTECH11026}
+
+  \begin{document}
+    \maketitle
+
+    \section*{Problem Statement}
+    A radio can tune over the frequency range of a portion of the MW broadcast band: (800 kHz to 1200 kHz). If its LC circuit has an effective inductance (\(L\)) and a variable capacitor with capacitance (\(C\)), what must be the range of \(C\)?
+
+    \section*{Solution}
+    To find the range of the variable capacitor (\(C\)) for a radio tuning over the frequency range of the MW broadcast band with an effective inductance (\(L\)), we can use the formula for the resonant frequency (\(f\)) of an LC circuit:
+    \[ f = \frac{1}{2\pi\sqrt{LC}} \]
+
+    For this problem, we can rearrange the formula to solve for \(C\):
+    \[ C = \frac{1}{(2\pi f)^2L} \]
+
+    Given the frequency range of 800 kHz to 1200 kHz, we can find the range of \(C\) by substituting these values into the formula:
+    \[ C_1 = \frac{1}{(2\pi \times 800 \times 10^3)^2 \times L} \approx 198.1 \, \text{pF} \]
+    \[ C_2 = \frac{1}{(2\pi \times 1200 \times 10^3)^2 \times L} \approx 88.04 \, \text{pF} \]
+
+    So, the variable capacitor should have a frequency range between 198.1pF and 88.04pF.
+
+    \begin{table}[h]
+      \centering
+      \caption{Input Parameters given in the question}
+      \label{tab:parameters}
+      \begin{tabular}{|c|c|c|}
+        \hline
+        \textbf{Symbol} & \textbf{Value} & \textbf{Description} \\
+        \hline
+        \(L\) & \(200 \mu H\) & Inductance of the circuit \\
+        \hline
+        \(f_{\text{min}}\) & 800 kHz & Minimum operating frequency \\
+        \hline
+        \(f_{\text{max}}\) & 1200 kHz & Maximum operating frequency \\
+        \hline
+        \(C_1\) &   & Maximum capacitance value \\
+        \hline
+        \(C_2\) &  & Minimum capacitance value \\
+        \hline
+      \end{tabular}
+    \end{table}
+
+    \begin{figure}[h]
+      \centering
+      \begin{circuitikz}
+        \draw (0,0) to[V, v=\(V_{\text{in}}\)] (0,2) to[L, l=\(L\)] (2,2) to[C, l=\(C\)] (4,2) -- (4,0) -- (0,0);
+      \end{circuitikz}
+      \caption{LC Circuit Diagram with Voltage Source (Time Domain)}
+      \label{fig:lc-circuit-time-domain-voltage}
+    \end{figure}
+
+    \begin{figure}[h]
+      \centering
+      \begin{circuitikz}
+        \draw (0,0) to[V, v=\(V_{\text{in}}\)] (0,2) to[L, l=\(sL\)] (2,2) to[C, l=\(\frac{1}{sC}\)] (4,2) -- (4,0) -- (0,0);
+      \end{circuitikz}
+      \caption{LC Circuit Diagram with Voltage Source (s Domain)}
+      \label{fig:lc-circuit-s-domain-voltage}
+    \end{figure}
+
+    \begin{figure}[h]
+      \centering
+      \begin{circuitikz}
+        % Your circuitikz code for the radio transmission circuit here
+        \draw (0,0) to[V, v=\(V_{\text{in}}\)] (0,2) to[L, l=\(L_{\text{ant}}\)] (2,2) to[C, l=\(C_{\text{ant}}\)] (4,2) to[R, l=\(R_{\text{ant}}\)] (6,2) -- (8,2);
+        \draw (8,2) -- (8,0) to[C, l=\(C_{\text{tune}}\)] (6,0) -- (6,2);
+        \draw (8,2) -- (10,2) to[voltage source, l=\(V_{\text{RF}}\)] (10,0) -- (8,0);
+        \draw (10,2) -- (12,2) node[mixer] {};
+        \draw (12,2) -- (14,2) node[op amp] (opamp) {}
+          (opamp.-) -- (14,0) -- (12,0) node[ground] {}
+          (opamp.+) -- (10,0) node[ground] {}
+          (opamp.out) -- (16,2);
+        \draw (16,2) -- (18,2) to[diode] (18,0) -- (16,0);
+        \draw (18,2) -- (20,2) to[R, l=\(R_{\text{audio}}\)] (20,0) to[C, l=\(C_{\text{audio}}\)] (20,-2) node[op amp] (audioamp) {};
+        \draw (audioamp.out) -- (22,2) node[right] {\(V_{\text{out}}\)};
+        \draw (0,0) -- (0,-2) node[ground] {};
+      \end{circuitikz}
+      \caption{Circuit for Radio Transmission in the MW Band}
+      \label{fig:radio-transmission-circuit}
+    \end{figure}
+  \end{document}
+}
+
+\myCode
+
