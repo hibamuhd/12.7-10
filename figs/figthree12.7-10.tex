@@ -1,0 +1,46 @@
+\documentclass{article}
+\usepackage{circuitikz}
+
+\begin{document}
+
+\begin{center}
+    \begin{circuitikz}
+        % Antenna
+        \draw (0,0) to[C, l=$C_{\mathrm{ant}}$] (2,0) to[L, l=$L_{\mathrm{ant}}$] (4,0) to[R, l=$R_{\mathrm{ant}}$] (6,0) -- (8,0);
+        
+        % Tuning circuit
+        \draw (8,0) -- (8,-2) to[C, l=$C_{\mathrm{tune}}$] (6,-2) -- (6,0);
+        
+        % Amplifier
+        \draw (8,0) -- (10,0) to[voltage source, l=$V_{\mathrm{RF}}$] (10,-2) -- (8,-2);
+        
+        % Mixer
+        \draw (10,0) -- (12,0) node[mixer] {};
+        
+        % Intermediate Frequency (IF) stage
+        \draw (12,0) -- (14,0) node[op amp] (opamp) {}
+            (opamp.-) -- (14,-2) -- (12,-2) node[ground] {}
+            (opamp.+) -- (10,-2) node[ground] {}
+            (opamp.out) -- (16,0);
+        
+        % Demodulator
+        \draw (16,0) -- (18,0) to[diode] (18,-2) -- (16,-2);
+        
+        % Audio amplifier
+        \draw (18,0) -- (20,0) to[R, l=$R_{\mathrm{audio}}$] (20,-2) to[C, l=$C_{\mathrm{audio}}$] (20,-4) node[op amp] (audioamp) {};
+        
+        % Output
+        \draw (audioamp.out) -- (22,0) node[right] {$V_{\mathrm{out}}$};
+        
+        % Ground
+        \draw (0,0) -- (0,-4) node[ground] {};
+    \end{circuitikz}
+\end{center}
+
+\end{document}
+
+
+
+
+
+
